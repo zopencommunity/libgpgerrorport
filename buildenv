@@ -1,0 +1,48 @@
+export ZOPEN_TARBALL_URL="https://gnupg.org/ftp/gcrypt/gpgrt/libgpg-error-1.47.tar.bz2"
+export ZOPEN_TARBALL_DEPS="make bzip2 tar curl perl automake autoconf m4 sed gettext zoslib diffutils"
+export ZOPEN_TYPE="TARBALL"
+export ZOPEN_NAME="libgpgerror"
+export ZOPEN_COMP=CLANG
+GPGERROR_VERSION="1.47"
+rm -f libgpgerror 
+ln -s libgpg-error-1.47 ${ZOPEN_NAME}
+
+zopen_check_results()
+{
+  dir="$1"
+  pfx="$2"
+  chk="$1/$2_check.log"
+
+  # Echo the following information to gauge build health
+  echo "actualFailures:0"
+  echo "totalTests:1"
+  echo "expectedFailures:0"
+  echo "expectedTotalTests:1"
+}
+
+zopen_append_to_env()
+{
+  cat <<ZZ
+if [ ! -z "\$ZOPEN_IN_ZOPEN_BUILD" ]; then
+   #export GPGRT_CONFIG=/home/haritha/zopen/prod/libgpg/bin/gpgrt-config
+   export GPGRT_CONFIG="-I\$PWD//bin/gpgrt-config"
+   export GPG_ERROR_CONFIG="-I\$PWD/bin/gpg-error"
+   export ZOPEN_EXTRA_CFLAGS="\${ZOPEN_EXTRA_CFLAGS} -I\$PWD/include"
+   export ZOPEN_EXTRA_CXXFLAGS="\${ZOPEN_EXTRA_CXXFLAGS} -I\$PWD/include"
+   export ZOPEN_EXTRA_LDFLAGS="\${ZOPEN_EXTRA_LDFLAGS} -L\$PWD/lib"
+   export ZOPEN_EXTRA_LIBS="\${ZOPEN_EXTRA_LIBS} -lgpg-error"
+  fi
+ZZ
+}
+
+zopen_append_to_setup()
+{
+  # echo commands that will run when installing via setup.sh
+}
+
+zopen_get_version()
+{
+  # Modify to echo the version of your tool/library
+  # Rather than hardcoding the version, obtain the version by running the tool/library
+  echo "$GPGERROR_VERSION"
+}
