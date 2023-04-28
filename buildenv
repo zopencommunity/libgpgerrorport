@@ -24,9 +24,8 @@ zopen_append_to_env()
 {
   cat <<ZZ
 if [ ! -z "\$ZOPEN_IN_ZOPEN_BUILD" ]; then
-   #export GPGRT_CONFIG=/home/haritha/zopen/prod/libgpg/bin/gpgrt-config
-   export GPGRT_CONFIG="-I\$PWD//bin/gpgrt-config"
-   export GPG_ERROR_CONFIG="-I\$PWD/bin/gpg-error"
+   export GPGRT_CONFIG="\$PWD//bin/gpgrt-config"
+   export GPG_ERROR_CONFIG="\$PWD/bin/gpg-error"
    export ZOPEN_EXTRA_CFLAGS="\${ZOPEN_EXTRA_CFLAGS} -I\$PWD/include"
    export ZOPEN_EXTRA_CXXFLAGS="\${ZOPEN_EXTRA_CXXFLAGS} -I\$PWD/include"
    export ZOPEN_EXTRA_LDFLAGS="\${ZOPEN_EXTRA_LDFLAGS} -L\$PWD/lib"
