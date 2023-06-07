@@ -1,0 +1,13 @@
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 343c309..22bb7b1 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -1688,7 +1688,7 @@ errnos-sym.h: Makefile mkstrtable.awk errnos.in
+ 
+ mkheader$(EXEEXT_FOR_BUILD): mkheader.c Makefile
+ 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
+-	$(CPPFLAGS_FOR_BUILD) -g -I. -I$(srcdir) -o $@ $(srcdir)/mkheader.c
++	$(CPPFLAGS_FOR_BUILD) -g -I. -I$(srcdir) -o $@ $(srcdir)/mkheader.c $(LIBS)
+ 
+ @FORCE_USE_SYSCFG_FALSE@@HAVE_GENERATED_LOCK_OBJ_H_FALSE@./lock-obj-pub.native.h: Makefile gen-posix-lock-obj$(EXEEXT) posix-lock-obj.h
+ @FORCE_USE_SYSCFG_FALSE@@HAVE_GENERATED_LOCK_OBJ_H_FALSE@	./gen-posix-lock-obj >$@
