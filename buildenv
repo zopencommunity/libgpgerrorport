@@ -1,11 +1,14 @@
-export ZOPEN_TARBALL_URL="https://gnupg.org/ftp/gcrypt/gpgrt/libgpg-error-1.47.tar.bz2"
-export ZOPEN_TARBALL_DEPS="make bzip2 tar curl perl automake autoconf m4 sed gettext zoslib diffutils"
-export ZOPEN_TYPE="TARBALL"
+# bump: libgpgerror-version /LIBGPGERROR_VERSION="(.*)"/ https://gnupg.org/ftp/gcrypt/gpgrt/|re:/libgpg-error-([\d.]+).tar.bz2/$1/|semver:*
+LIBGPGERROR_VERSION="1.47"
+
+export ZOPEN_STABLE_URL="https://gnupg.org/ftp/gcrypt/gpgrt/libgpg-error-${LIBGPGERROR_VERSION}.tar.bz2"
+export ZOPEN_STABLE_DEPS="make bzip2 tar curl perl automake autoconf m4 sed gettext zoslib diffutils"
+export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_NAME="libgpgerror"
 export ZOPEN_COMP=CLANG
-GPGERROR_VERSION="1.47"
+
 rm -f libgpgerror 
-ln -s libgpg-error-1.47 ${ZOPEN_NAME}
+ln -s "libgpg-error-${LIBGPGERROR_VERSION}" ${ZOPEN_NAME}
 
 zopen_check_results()
 {
@@ -46,7 +49,5 @@ zopen_append_to_setup()
 
 zopen_get_version()
 {
-  # Modify to echo the version of your tool/library
-  # Rather than hardcoding the version, obtain the version by running the tool/library
-  echo "$GPGERROR_VERSION"
+  echo "$LIBGPGERROR_VERSION"
 }
