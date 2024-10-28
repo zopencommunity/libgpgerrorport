@@ -2,7 +2,7 @@
 LIBGPGERROR_VERSION="1.47"
 
 export ZOPEN_STABLE_URL="https://gnupg.org/ftp/gcrypt/gpgrt/libgpg-error-${LIBGPGERROR_VERSION}.tar.bz2"
-export ZOPEN_STABLE_DEPS="make bzip2 tar curl perl automake autoconf m4 sed gettext zoslib diffutils"
+export ZOPEN_STABLE_DEPS="make bzip2 tar curl perl automake autoconf m4 sed gettext zoslib diffutils openssl"
 export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_NAME="libgpgerror"
 export ZOPEN_COMP=CLANG
