@@ -1,0 +1,25 @@
+diff --git a/src/spawn-posix.c b/src/spawn-posix.c
+index 0cdf0a6..b45b903 100644
+--- a/src/spawn-posix.c
++++ b/src/spawn-posix.c
+@@ -26,9 +26,10 @@
+ #if defined(HAVE_W32_SYSTEM)
+ #error This code is only used on POSIX
+ #endif
+-
++#define environ environ_replace
+ #include <stdio.h>
+ #include <stdlib.h>
++#undef environ
+ #include <stdint.h>
+ #include <string.h>
+ #include <errno.h>
+@@ -294,7 +295,7 @@ do_create_socketpair (int filedes[2])
+   gpg_error_t err = 0;
+ 
+   _gpgrt_pre_syscall ();
+-  if (socketpair (AF_LOCAL, SOCK_STREAM, 0, filedes) == -1)
++  if (socketpair (AF_UNIX, SOCK_STREAM, 0, filedes) == -1)
+     {
+       err = _gpg_err_code_from_syserror ();
+       filedes[0] = filedes[1] = -1;
