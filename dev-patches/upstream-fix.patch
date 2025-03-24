@@ -1,0 +1,62 @@
+diff --git a/m4/libtool.m4 b/m4/libtool.m4
+index e7b6833..47c5345 100644
+--- a/m4/libtool.m4
++++ b/m4/libtool.m4
+@@ -3603,6 +3603,10 @@ openbsd* | bitrig*)
+   fi
+   ;;
+ 
++openedition)
++  lt_cv_deplibs_check_method=pass_all
++  ;;
++
+ osf3* | osf4* | osf5*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 9389e99..daaea55 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -273,7 +273,7 @@ errnos-sym.h: Makefile mkstrtable.awk errnos.in
+ 
+ mkheader$(EXEEXT_FOR_BUILD): mkheader.c Makefile
+ 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
+-	$(CPPFLAGS_FOR_BUILD) -g -I. -I$(srcdir) -o $@ $(srcdir)/mkheader.c
++	$(CPPFLAGS_FOR_BUILD) -g -I. -I$(srcdir) -o $@ $(srcdir)/mkheader.c $(LIBS)
+ 
+ parts_of_gpg_error_h = 	 	\
+ 	gpg-error.h.in  	\
+diff --git a/src/spawn-posix.c b/src/spawn-posix.c
+index ac19761..2666862 100644
+--- a/src/spawn-posix.c
++++ b/src/spawn-posix.c
+@@ -27,8 +27,17 @@
+ #error This code is only used on POSIX
+ #endif
+ 
++#if defined(__MVS__)
++#define environ environ_replace
++#endif
++
+ #include <stdio.h>
+ #include <stdlib.h>
++
++#if defined(__MVS__)
++#undef environ
++#endif
++
+ #include <stdint.h>
+ #include <string.h>
+ #include <errno.h>
+@@ -330,7 +339,11 @@ do_create_socketpair (int filedes[2])
+   gpg_error_t err = 0;
+ 
+   _gpgrt_pre_syscall ();
++#if defined(__MVS__)
++  if (socketpair (AF_UNIX, SOCK_STREAM, 0, filedes) == -1)
++#else
+   if (socketpair (AF_LOCAL, SOCK_STREAM, 0, filedes) == -1)
++#endif
+     {
+       err = _gpg_err_code_from_syserror ();
+       filedes[0] = filedes[1] = -1;
