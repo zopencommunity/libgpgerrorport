@@ -1,5 +1,5 @@
 # bump: libgpgerror-version /LIBGPGERROR_VERSION="(.*)"/ https://gnupg.org/ftp/gcrypt/gpgrt/|re:/libgpg-error-([\d.]+).tar.bz2/$1/|semver:*
-LIBGPGERROR_VERSION="1.51"
+LIBGPGERROR_VERSION="1.53"
 
 export ZOPEN_STABLE_URL="https://gnupg.org/ftp/gcrypt/gpgrt/libgpg-error-${LIBGPGERROR_VERSION}.tar.bz2"
 export ZOPEN_CATEGORIES="security library"
