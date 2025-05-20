@@ -6,7 +6,7 @@ index e7b6833..47c5345 100644
    fi
    ;;
  
-+openedition)
++openedition*)
 +  lt_cv_deplibs_check_method=pass_all
 +  ;;
 +
