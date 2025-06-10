@@ -1,23 +1,8 @@
-diff --git a/m4/libtool.m4 b/m4/libtool.m4
-index e7b6833..47c5345 100644
---- a/m4/libtool.m4
-+++ b/m4/libtool.m4
-@@ -3603,6 +3603,10 @@ openbsd* | bitrig*)
-   fi
-   ;;
- 
-+openedition*)
-+  lt_cv_deplibs_check_method=pass_all
-+  ;;
-+
- osf3* | osf4* | osf5*)
-   lt_cv_deplibs_check_method=pass_all
-   ;;
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 9389e99..daaea55 100644
+index e56bb23..7e874cf 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -273,7 +273,7 @@ errnos-sym.h: Makefile mkstrtable.awk errnos.in
+@@ -275,7 +275,7 @@ errnos-sym.h: Makefile mkstrtable.awk errnos.in
  
  mkheader$(EXEEXT_FOR_BUILD): mkheader.c Makefile
  	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
