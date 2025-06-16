@@ -12,36 +12,35 @@ index e56bb23..7e874cf 100644
  parts_of_gpg_error_h = 	 	\
  	gpg-error.h.in  	\
 diff --git a/src/spawn-posix.c b/src/spawn-posix.c
-index ac19761..2666862 100644
+index ac19761..0ffc71e 100644
 --- a/src/spawn-posix.c
 +++ b/src/spawn-posix.c
-@@ -27,8 +27,17 @@
- #error This code is only used on POSIX
- #endif
+@@ -63,7 +63,7 @@
+ struct gpgrt_spawn_actions {
+   int fd[3];
+   const int *except_fds;
+-  char **environ;
++  char **environ_p;
+   const char *const *envchange;
+   void (*atfork) (void *);
+   void *atfork_arg;
+@@ -414,8 +414,8 @@ my_exec (const char *pgmname, const char *argv[], gpgrt_spawn_actions_t act)
+   if (pgmname == NULL)
+     return 0;
  
-+#if defined(__MVS__)
-+#define environ environ_replace
-+#endif
-+
- #include <stdio.h>
- #include <stdlib.h>
-+
-+#if defined(__MVS__)
-+#undef environ
-+#endif
-+
- #include <stdint.h>
- #include <string.h>
- #include <errno.h>
-@@ -330,7 +339,11 @@ do_create_socketpair (int filedes[2])
-   gpg_error_t err = 0;
+-  if (act->environ)
+-    execve (pgmname, (char *const *)argv, act->environ);
++  if (act->environ_p)
++    execve (pgmname, (char *const *)argv, act->environ_p);
+   else
+     execv (pgmname, (char *const *)argv);
  
-   _gpgrt_pre_syscall ();
-+#if defined(__MVS__)
-+  if (socketpair (AF_UNIX, SOCK_STREAM, 0, filedes) == -1)
-+#else
-   if (socketpair (AF_LOCAL, SOCK_STREAM, 0, filedes) == -1)
-+#endif
-     {
-       err = _gpg_err_code_from_syserror ();
-       filedes[0] = filedes[1] = -1;
+@@ -516,7 +516,7 @@ void
+ _gpgrt_spawn_actions_set_environ (gpgrt_spawn_actions_t act,
+                                   char **environ_for_child)
+ {
+-  act->environ = environ_for_child;
++  act->environ_p = environ_for_child;
+ }
+ 
+ void
