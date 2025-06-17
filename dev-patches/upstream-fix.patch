@@ -20,7 +20,7 @@ index ac19761..0ffc71e 100644
    int fd[3];
    const int *except_fds;
 -  char **environ;
-+  char **environ_p;
++  char **env;
    const char *const *envchange;
    void (*atfork) (void *);
    void *atfork_arg;
@@ -30,8 +30,8 @@ index ac19761..0ffc71e 100644
  
 -  if (act->environ)
 -    execve (pgmname, (char *const *)argv, act->environ);
-+  if (act->environ_p)
-+    execve (pgmname, (char *const *)argv, act->environ_p);
++  if (act->env)
++    execve (pgmname, (char *const *)argv, act->env);
    else
      execv (pgmname, (char *const *)argv);
  
@@ -40,7 +40,7 @@ index ac19761..0ffc71e 100644
                                    char **environ_for_child)
  {
 -  act->environ = environ_for_child;
-+  act->environ_p = environ_for_child;
++  act->env = environ_for_child;
  }
  
  void
