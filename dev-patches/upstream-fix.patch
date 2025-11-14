@@ -1,18 +1,24 @@
-diff --git a/src/Makefile.am b/src/Makefile.am
-index e56bb23..7e874cf 100644
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -275,7 +275,7 @@ errnos-sym.h: Makefile mkstrtable.awk errnos.in
+diff --git a/configure.ac b/configure.ac
+index 9792cba..ca3ef01 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -144,11 +144,11 @@ esac
  
- mkheader$(EXEEXT_FOR_BUILD): mkheader.c Makefile
- 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
--	$(CPPFLAGS_FOR_BUILD) -g -I. -I$(srcdir) -o $@ $(srcdir)/mkheader.c
-+	$(CPPFLAGS_FOR_BUILD) -g -I. -I$(srcdir) -o $@ $(srcdir)/mkheader.c $(LIBS)
- 
- parts_of_gpg_error_h = 	 	\
- 	gpg-error.h.in  	\
+ # Set some variables for building build platform helpers.
+ case "$build_os" in
+-    *zOS*)
+-        EXTRA_LIBS_FOR_BUILD=zoslib
++    *openedition*)
++        EXTRA_LIBS_FOR_BUILD="-lzoslib /home/sachint/zopen/usr/local/zopen/zoslib/zoslib/lib/celquopt.s.o -lzoslib-supp"
+         ;;
+     *)
+-        EXTRA_LIBS_FOR_BUILD=
++        EXTRA_LIBS_FOR_BUILD=""
+ 	;;
+ esac
+ AC_SUBST(EXTRA_LIBS_FOR_BUILD)
 diff --git a/src/spawn-posix.c b/src/spawn-posix.c
-index ac19761..0ffc71e 100644
+index 8cdd032..73cef10 100644
 --- a/src/spawn-posix.c
 +++ b/src/spawn-posix.c
 @@ -63,7 +63,7 @@
@@ -24,7 +30,7 @@ index ac19761..0ffc71e 100644
    const char *const *envchange;
    void (*atfork) (void *);
    void *atfork_arg;
-@@ -414,8 +414,8 @@ my_exec (const char *pgmname, const char *argv[], gpgrt_spawn_actions_t act)
+@@ -432,8 +432,8 @@ my_exec (const char *pgmname, const char *argv[], gpgrt_spawn_actions_t act,
    if (pgmname == NULL)
      return 0;
  
@@ -35,7 +41,7 @@ index ac19761..0ffc71e 100644
    else
      execv (pgmname, (char *const *)argv);
  
-@@ -516,7 +516,7 @@ void
+@@ -534,7 +534,7 @@ void
  _gpgrt_spawn_actions_set_environ (gpgrt_spawn_actions_t act,
                                    char **environ_for_child)
  {
