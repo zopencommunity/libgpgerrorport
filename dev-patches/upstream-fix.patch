@@ -1,15 +1,17 @@
 diff --git a/configure.ac b/configure.ac
-index 9792cba..ca3ef01 100644
+index 9792cba..359cc29 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -144,11 +144,11 @@ esac
+@@ -144,11 +144,13 @@ esac
  
  # Set some variables for building build platform helpers.
  case "$build_os" in
 -    *zOS*)
 -        EXTRA_LIBS_FOR_BUILD=zoslib
 +    *openedition*)
-+        EXTRA_LIBS_FOR_BUILD="-lzoslib /home/sachint/zopen/usr/local/zopen/zoslib/zoslib/lib/celquopt.s.o -lzoslib-supp"
++        PKG_CHECK_MODULES([ZOSLIB], [zoslib],
++                          [EXTRA_LIBS_FOR_BUILD="$ZOSLIB_LIBS"],
++                          [AC_MSG_ERROR([zoslib not found. Please ensure zoslib.pc is in PKG_CONFIG_PATH.])])
          ;;
      *)
 -        EXTRA_LIBS_FOR_BUILD=
