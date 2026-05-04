@@ -1,17 +1,13 @@
 # bump: libgpgerror-version /LIBGPGERROR_VERSION="(.*)"/ https://gnupg.org/ftp/gcrypt/gpgrt/|re:/libgpg-error-([\d.]+).tar.bz2/$1/|semver:*
-LIBGPGERROR_VERSION="1.59"
+LIBGPGERROR_VERSION="1.60"
 
 export ZOPEN_STABLE_URL="https://gnupg.org/ftp/gcrypt/gpgrt/libgpg-error-${LIBGPGERROR_VERSION}.tar.bz2"
 export ZOPEN_CATEGORIES="security library"
-export ZOPEN_STABLE_DEPS="make bzip2 tar curl perl automake autoconf m4 sed gettext zoslib diffutils openssl zlib pkgconfig coreutils"
+export ZOPEN_STABLE_DEPS="make sed gettext diffutils pkgconfig coreutils"
 export ZOPEN_BUILD_LINE="STABLE"
-export ZOPEN_NAME="libgpgerror"
+export ZOPEN_NAME="libgpgerror-${LIBGPGERROR_VERSION}"
 export ZOPEN_COMP=CLANG
-export ZOPEN_EXTRA_CFLAGS="-mzos-target=zosv2r5 -march=z13"
-export ZOPEN_SYSTEM_PREREQS="zos25"
-
-rm -f libgpgerror 
-ln -s "libgpg-error-${LIBGPGERROR_VERSION}" ${ZOPEN_NAME}
+export USE_CLANG_WRAPPER=1
 
 zopen_check_results()
 {
